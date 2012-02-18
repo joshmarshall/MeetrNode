@@ -12,4 +12,12 @@ app.listen(port, function() {
   console.log("Mongo url: " + mongoUri);
 });*/
 
-console.log("Hello world.");
+var
+  express = require('express')
+  ,app = express.createServer(express.logger())
+  ,port = process.evn.PORT || 3000
+;
+
+require('./routes')(app);
+
+app.listen(port);
