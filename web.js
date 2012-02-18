@@ -18,6 +18,6 @@ var
   ,port = process.evn.PORT || 3000
 ;
 
-require('./routes')(app);
+require('./routes')(app, express);
 
 app.listen(port);
