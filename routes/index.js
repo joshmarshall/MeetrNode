@@ -8,6 +8,8 @@ module.exports = function(app, express){
   });
 
   app.get('/', function(req, res) {
-    res.write('Hello there!');
+    res.json({
+      message: 'Hello there!'
+    });
   });
 };

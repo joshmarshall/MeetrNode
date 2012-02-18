@@ -1,7 +1,7 @@
 module.exports = function(app){
 
   app.get('/people', function(req, res){
-    res.write({
+    res.json({
       people: []
     });
   });
