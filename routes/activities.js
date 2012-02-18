@@ -1,7 +1,7 @@
 module.exports = function(app){
 
-  app.post('/activity', function(req, res){
-    res.write({
+  app.get('/activity', function(req, res){
+    res.json({
       activity: []
     });
   });
