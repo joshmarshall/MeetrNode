@@ -6,4 +6,8 @@ module.exports = function(app){
     var name = file.substr(0, file.indexOf('.'));
     require('./' + name)(app);
   });
+
+  app.get('/', function(req, res) {
+    res.write('Hello there!');
+  });
 };
