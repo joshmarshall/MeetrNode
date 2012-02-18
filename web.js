@@ -15,7 +15,7 @@ app.listen(port, function() {
 var
   express = require('express')
   ,app = express.createServer(express.logger())
-  ,port = process.evn.PORT || 3000
+  ,port = process.env.PORT || 3000
 ;
 
 require('./routes')(app, express);
