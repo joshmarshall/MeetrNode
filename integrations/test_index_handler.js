@@ -1,7 +1,6 @@
 var apieasy = require("api-easy");
 var vows = require("vows");
 
-
 var suite = apieasy.describe("Index handler tests.");
 
 suite.use("localhost", 3000)
