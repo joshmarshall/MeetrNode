@@ -1,7 +1,7 @@
-from unittest import TestCase
 import urllib2
+from base_testcase import BaseTestCase
 
-class TestServer(TestCase):
+class TestServer(BaseTestCase):
 
     def test_root(self):
         response = urllib2.urlopen("http://localhost:3000/")
