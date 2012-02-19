@@ -25,8 +25,8 @@ module.exports = function(app){
     }
 
     // store data
-    res.json({
+    res.send(JSON.stringify({
       people: []
-    });
+    }));
   });
 };

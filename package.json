@@ -2,8 +2,9 @@
   "name": "meetr",
   "version": "0.0.1",
   "dependencies": {
-     "mongoose": "2.5.6",
+     "redis": "*",
      "express": "*",
-     "vows": "*"
+     "vows": "*",
+     "api-easy": "*"
    }
 }
