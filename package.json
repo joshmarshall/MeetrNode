@@ -5,6 +5,7 @@
      "redis": "*",
      "express": "*",
      "vows": "*",
-     "api-easy": "*"
+     "api-easy": "*",
+     "resourceful": "*"
    }
 }
