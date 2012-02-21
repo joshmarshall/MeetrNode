@@ -1,58 +1,66 @@
-var
-  meetup_models = require("../models/meetup.js")
-  ,vows = require("vows")
-  ,assert = require("assert")
-  ,utilities = require("../libs/utilities.js")
-;
+var vows = require("vows");
+var assert = require("assert");
+var Meetup = require("../models/meetup.js").Meetup;
 
-vows.describe("Models").addBatch({
-  "New meetups should ": {
+vows.describe("Meetup models").addBatch({
 
-    "should have a name.": function() {
-      var meetup = meetup_models.create_meetup({
-        name: "Meetup",
-        user_id: "tom"
-      });
-      assert.equal(meetup.name, "Meetup");
-      assert.notEqual(meetup.id, undefined);
-    }
-
-  },
-
-  "Saving meetups should ": {
-
+  "New meetups ": {
     topic: function() {
-      var meetup = meetup_models.create_meetup({
-        name: "Meetup",
-        user_id: "tom"
-      });
-      var self = this;
-      var meetups = {};
-      var client = utilities.connect(function() {
-        meetup_models.save_meetup(client, meetup, function() {
-          meetup_models.get_meetup(client, meetup.id, function(retrieved_meetup) {
-            meetups.retrieved_meetup = retrieved_meetup;
-            meetup_models.get_meetups_by_user_id(client, "tom",
-              function(user_meetups) {
-                meetups.user_meetups = user_meetups;
-                self.callback(null, meetups);
-              }
-            );
-          });
-        });
-      });
+      Meetup.create({
+        name: "New Meetup",
+        user_uid: "tom"
+      }, this.callback);
     },
 
-    "result in a saved meetup.": function(meetups) {
-      assert.equal(meetups.retrieved_meetup.name, "Meetup");
+    "should have a name.": function(meetup) {
+      assert.equal(meetup.name, "New Meetup");
     },
 
-    "store the user id.": function(meetups) {
-      assert.equal(meetups.retrieved_meetup.user_id, "tom");
+    "should have a uid by default.": function(meetup) {
+      assert.isNotNull(meetup.uid);
+      assert.equal(meetup.uid.length, 8);
     },
 
-    "be grouped by user.": function(meetups) {
-      assert.isTrue(meetups.user_meetups.length >= 1);
+    "should have activities by default.": function(meetup) {
+      assert.isNotNull(meetup.activities);
+      assert.equal(meetup.activities.length, 0);
+    },
+
+    "should have people by default.": function(meetup) {
+      assert.isNotNull(meetup.people);
+      assert.equal(meetup.people.length, 0);
+    },
+
+    "can have people added to them.": function(meetup) {
+      meetup.add_person({uid: "foobar"}); // adding mock person
+      assert.equal(meetup.people.length, 1);
+      assert.equal(meetup.people[0], "foobar");
+    },
+
+    "should only add people once.": function(meetup) {
+      meetup.add_person({uid: "foobar"});
+      assert.equal(meetup.people.length, 1);
+    },
+
+    "can have activities added to them.": function(meetup) {
+      meetup.add_activity({uid: "quxbaz"}); // adding mock activity
+      assert.equal(meetup.activities.length, 1);
+      assert.equal(meetup.activities[0], "quxbaz");
+    },
+
+    "should only add activities once.": function(meetup) {
+      meetup.add_activity({uid: "quxbaz"});
+      assert.equal(meetup.activities.length, 1);
+    },
+
+    "should be queryable by user uid": {
+      topic: function() {
+        Meetup.find({ user_uid: "tom" }, this.callback);
+      },
+
+      "(checking results)": function(results) {
+        assert.equal(results.length, 1);
+      }
     }
   }
 }).export(module);

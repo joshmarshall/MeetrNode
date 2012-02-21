@@ -1,5 +1,6 @@
 var apieasy = require("api-easy");
 var vows = require("vows");
+var web = require("../web.js"); // automatically starts server
 
 var suite = apieasy.describe("People handlers tests.");
 

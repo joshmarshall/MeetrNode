@@ -23,6 +23,13 @@ vows.describe("Activity models").addBatch({
 
     "should have empty votes by default.": function(activity) {
       assert.equal(typeof(activity.votes), "object");
+    },
+
+    "should be votable.": function(activity) {
+      activity.vote("josh", true);
+      assert.equal(activity.votes.josh, true);
+      activity.vote("josh", null);
+      assert.equal(activity.votes.josh, false);
     }
 
   }

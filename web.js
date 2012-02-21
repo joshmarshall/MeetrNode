@@ -18,6 +18,8 @@ var
   ,port = process.env.PORT || 3000
 ;
 
+
+
 app.configure(function(){
   app.use(express.bodyParser());
   //app.use(express.methodOverride());
@@ -26,5 +28,5 @@ app.configure(function(){
 
 require('./routes')(app, express);
 
-//console.log ('listening on', port);
+console.log ('listening on', port);
 app.listen(port);

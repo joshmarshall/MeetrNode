@@ -39,3 +39,37 @@ exports.generate_id = function() {
   }
   return string;
 };
+
+
+var _addUID = function(data) {
+  // just generates an id and adds it to the data.
+  if (!data.uid) {
+    data.uid = exports.generate_id();
+  }
+};
+
+
+exports.enable_uid_for_resource = function(resource) {
+  // updates a resource to accept / set UIDs
+
+  // seems a bit silly to have to overwrite both create and new
+  // to set default values on properties...
+  // I'm curious whether there's a standard overwrite for this
+  // in resourceful.
+
+  var _originalNew = resource.new;
+  var _originalCreate = resource.create;
+
+  resource.new = function(data) {
+    _addUID(data);
+    return _originalNew.apply(this, arguments);
+  };
+
+  resource.create = function(data) {
+    _addUID(data);
+    return _originalCreate.apply(this, arguments);
+  };
+
+  resource.property("uid", String, { required: true });
+  return resource;
+};
